@@ -1,0 +1,41 @@
+services:
+  master-server:
+    build:
+      context: .
+      dockerfile: master_server/Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8000/ping > /dev/null || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  player-server:
+    build:
+      context: .
+      dockerfile: player_server/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - GAME_MASTER_ADDR=http://master-server:8000
+      - GAME_MIN=1
+      - GAME_MAX=20
+    networks:
+      - app-network
+    depends_on:
+      - master-server
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8001/ping-master > /dev/null || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+
+networks:
+  app-network:
+    driver: bridge
