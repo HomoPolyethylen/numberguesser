@@ -1,22 +1,23 @@
 from models import Answer
-from .interfaces import GuessStrategy, PlayerInterface
+from .interfaces import GuessStrategy
+from .player import Player
 
 class BinarySearch(GuessStrategy):
 
-    def next_guess(self, player: PlayerInterface) -> int:
+    def next_guess(self, player: Player) -> int:
         if not player.history:
-            player._lower_bound = player.MIN
-            player._upper_bound = player.MAX
+            player.lower_bound = player.game_min
+            player.upper_bound = player.game_max
 
         else:
             prev_guess, prev_answer = player.history[-1]
             # update search window
             if prev_answer == Answer.HIGHER:
-                player._lower_bound = prev_guess
+                player.lower_bound = prev_guess
             elif prev_answer == Answer.LOWER:
-                player._upper_bound = prev_guess
+                player.upper_bound = prev_guess
 
         # pick next guess
-        next_pivot = int(player._lower_bound + (player._upper_bound - player._lower_bound) / 2)
+        next_pivot = int(player.lower_bound + (player.upper_bound - player.lower_bound) / 2)
         return next_pivot
   

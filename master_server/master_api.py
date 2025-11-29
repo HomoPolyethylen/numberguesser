@@ -43,6 +43,7 @@ def new_game(min: int = 1, max: int = 1000):
     game = Game(min=min, max=max)
     active_games[game.player] = game
     return {"player-id": game.player}
+    # return game.player
 
 @app.get("/games", status_code=200)
 def get_games():
