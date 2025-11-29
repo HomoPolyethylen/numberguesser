@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from player_server.player_api import app as player_app
-from master_server.master_api import app as master_app
+from player_server import app as player_app
+from master_server import app as master_app
 from player_server.proxy import MasterClientHttpx, get_master_client
 
 @pytest.fixture
