@@ -21,7 +21,7 @@ class MasterClientInterface(ABC):
         ...
     
     @abstractmethod
-    def get(self, headers: dict=None, json: dict=None):
+    def get(self, path: str, headers: dict={}, json: dict={}) -> dict:
         """send a GET request to the game master"""
         ...
 

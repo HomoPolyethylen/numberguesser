@@ -10,4 +10,8 @@ class Answer(Enum):
 
     def __eq__(self, other):
         """compare equality string-based"""
-        return self.value == other
+        return self.value == str(other)
+    
+    def __str__(self):
+        """string representation of the Answer"""
+        return self.value

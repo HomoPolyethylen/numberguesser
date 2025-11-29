@@ -14,8 +14,8 @@ from .player import Player
 # GLOBs & CONSTs
 #
 app = FastAPI()
-MIN = os.getenv("GAME_MIN", default=1)
-MAX = os.getenv("GAME_MAX", default=1000)
+MIN = int(os.getenv("GAME_MIN", default=1))
+MAX = int(os.getenv("GAME_MAX", default=1000))
 
 
 #

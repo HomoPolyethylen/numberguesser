@@ -59,5 +59,4 @@ def handle_guess(guess: int, game: Annotated[Game, Depends(get_player_game)]) ->
         ans = Answer.LOWER
 
     game.guesses.append((guess, ans))
-    return ans
-
+    return str(ans)
