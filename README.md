@@ -1,5 +1,10 @@
 # Number guessing service
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Pytest](https://img.shields.io/badge/pytest-%23ffffff.svg?style=for-the-badge&logo=pytest&logoColor=2f9fe3)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
 This is a small coding project. Posed by itdesign GmbH and implemented by Niclas Grote.
 
 ## Task
@@ -13,19 +18,20 @@ You can either run the containers together using `docker compose` or manually us
 
 > [!IMPORTANT]
 > Docker needs root privileges. Either run docker commands as root or as a user, who is part of the privilledged `docker` group.
+> If docker is not permitted on your system, use `podman` which, in most cases, can be used like a rootless docker alias.
 
 ### Run via docker compose
 
 from the project root, run:
 
 ```shell
-sudo docker compose up
+docker compose up
 ```
 
 to stop the containers, run:
 
 ```shell
-sudo docker compose down
+docker compose down
 ```
 
 ### Run manually
@@ -34,15 +40,15 @@ from the project root:
 
 1. build the images  
 ```shell
-sudo docker build -t master-server -f master_server/Dockerfile
-sudo docker build -t player-server -f player_server/Dockerfile
+docker build -t master-server -f master_server/Dockerfile
+docker build -t player-server -f player_server/Dockerfile
 ```
-2. run the containers
+1. run the containers
 ```shell
-sudo docker run master-server
-sudo docker run player-server
+docker run master-server
+docker run player-server
 ```
-3. verify
+1. verify
 ```shell
 # you can play a game by sending a request to the player server
 curl -f http://localhost:8001/play
@@ -56,7 +62,5 @@ curl -f http://localhost:8001/play
 - when using docker-compose, check the containers health status via:  
 
 ```shell
-sudo docker containers ls
+docker containers ls
 ```
-
-- if docker is not permittet on your system (often due its demand in privileges), you can use `podman` instead, which works like a rootless docker alias. Hence, you can even `podman compose up`.
