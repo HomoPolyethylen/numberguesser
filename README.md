@@ -2,6 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Pytest](https://img.shields.io/badge/pytest-%23ffffff.svg?style=for-the-badge&logo=pytest&logoColor=2f9fe3)
+![Prettier](https://img.shields.io/badge/prettier-%23F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
@@ -38,29 +39,34 @@ docker compose down
 
 from the project root:
 
-1. build the images  
-```shell
-docker build -t master-server -f master_server/Dockerfile
-docker build -t player-server -f player_server/Dockerfile
-```
-1. run the containers
-```shell
-docker run master-server
-docker run player-server
-```
-1. verify
-```shell
-# you can play a game by sending a request to the player server
-curl -f http://localhost:8001/play
-```
+1. build the images
+
+   ```shell
+   docker build -t master-server -f master_server/Dockerfile
+   docker build -t player-server -f player_server/Dockerfile
+   ```
+
+2. run the containers
+
+   ```shell
+   docker run master-server
+   docker run player-server
+   ```
+
+3. verify
+
+   ```shell
+   # you can play a game by sending a request to the player server
+   curl -f http://localhost:8001/play
+   ```
 
 ### a few remarks
 
 - the master server listens on port 8000 (both externally and inside the container)
 - the player server listens on port 8001 (both externally and inside the container)
 - run `pytest .` in the project root to run the integration tests
-- when using docker-compose, check the containers health status via:  
+- when using docker-compose, check the containers health status via:
 
-```shell
-docker containers ls
-```
+  ```shell
+  docker containers ls
+  ```
