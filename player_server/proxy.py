@@ -19,8 +19,8 @@ class MasterClientHttpx(MasterClientInterface):
     def __init__(self, base_url: str):
         self._client = httpx.Client(base_url=base_url)
 
-    def init_game(self, min: int = 1, max: int = 1000) -> str:
-        r = self._client.get("/new-game", params={"min": min, "max": max})
+    def init_game(self, game_min: int = 1, game_max: int = 1000) -> str:
+        r = self._client.get("/new-game", params={"min": game_min, "max": game_max})
         r.raise_for_status()
         return r.json()
 

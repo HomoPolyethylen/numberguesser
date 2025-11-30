@@ -12,10 +12,10 @@ class Game:
     guesses : List[Tuple[int, Answer]] # [(42, "higher"), (420, "lower"), ...]
 
     def __init__(self,
-                 min: int = 1,
-                 max: int = 1000):
+                 game_min: int = 1,
+                 game_max: int = 1000):
         self.player = str(uuid.uuid4())
-        self.MIN = min
-        self.MAX = max
+        self.MIN = game_min
+        self.MAX = game_max
         self.number = int(self.MIN + random.random() * abs(self.MAX - self.MIN))
         self.guesses = []

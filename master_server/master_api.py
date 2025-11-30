@@ -19,6 +19,18 @@ app = FastAPI()
 # DEPENDENCIES
 #
 def get_player_game(player_id: Annotated[str | None, Header()]) -> Game:
+    """return a player's game, if it exists
+
+    Args:
+        player_id (str): the player id
+
+    Raises:
+        HTTPException: code 422: missing player-id in headers
+        HTTPException: code 406: no active game for player found
+
+    Returns:
+        Game: the players active game
+    """
     if player_id is None:
         raise HTTPException(status_code=422,
                             detail="missing player-id in headers")
@@ -38,12 +50,11 @@ def get_ping():
     return "pong"
 
 @app.get("/new-game", status_code=201)
-def new_game(min: int = 1, max: int = 1000):
-    # initialise a game
-    game = Game(min=min, max=max)
+def new_game(game_min: int = 1, game_max: int = 1000):
+    """initialise a game instance and return a player id"""
+    game = Game(game_min, game_max)
     active_games[game.player] = game
     return {"player-id": game.player}
-    # return game.player
 
 @app.get("/games", status_code=200)
 def get_games():

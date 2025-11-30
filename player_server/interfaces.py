@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 class MasterClientInterface(ABC):
     
     @abstractmethod
-    def init_game(self, min:int, max:int) -> dict:
+    def init_game(self, game_min:int, game_max:int) -> dict:
         """initialize a new game and return the new player id"""
         ...
     
@@ -20,7 +20,7 @@ class MasterClientInterface(ABC):
         ...
     
     @abstractmethod
-    def get(self, path: str, headers: dict={}, json: dict={}) -> dict:
+    def get(self, path: str, headers: dict|None = None, json: dict|None = None) -> dict:
         """send a GET request to the game master"""
         ...
    

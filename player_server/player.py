@@ -11,7 +11,6 @@ class Player():
     """
     strategy        : GuessStrategy
     master_client   : MasterClientInterface
-    # headers         : dict
     player_id       : str
     history         : list[tuple[int, Answer]]
     game_min        : int
@@ -23,9 +22,6 @@ class Player():
                  master_client: MasterClientInterface):
         self.strategy = strategy
         self.master_client = master_client
-        # self.headers = {"player-id": uuid4().hex}
-        # self.headers = {}
-        # self.player_id = None
         self.history = []
 
     def get_lower_bound(self) -> int:
@@ -44,11 +40,11 @@ class Player():
             raise Exception("Player ID is not set. This could mean the game was not initialised.")
         return self.player_id
     
-    def set_id(self, id: str | dict) -> None:
-        if isinstance(id, dict):
-            self.player_id = id.get("player-id") # type: ignore
+    def set_id(self, player_id: str | dict) -> None:
+        if isinstance(player_id, dict):
+            self.player_id = player_id.get("player-id") # type: ignore
         else:
-            self.player_id = id
+            self.player_id = player_id
 
     def add_guess(self, guess: int, answer: Answer) -> None:
         """add a guess and its answer to the player's history and update bounds"""
@@ -63,8 +59,7 @@ class Player():
     def get_last_answer(self) -> Answer | None:
         if self.history:
             return self.history[-1][1]
-        else:
-            return None
+        return None
 
     def summarize_history(self) -> dict:
         status = Answer.WON if self.get_last_answer() == Answer.WON else "playing"
