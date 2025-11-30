@@ -1,3 +1,5 @@
+"""fixtures for testing both player and master server apps without real http calls"""
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -24,4 +26,3 @@ def get_player_testing_client(get_master_testing_client: TestClient):
     player_app.dependency_overrides[get_master_client] = get_master_client_override
     yield TestClient(player_app)
     player_app.dependency_overrides.clear()
-

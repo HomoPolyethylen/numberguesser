@@ -1,4 +1,4 @@
-"""implements the player which uses a strategy to play the number guessing game with the game master"""
+"""implements the player which uses a strategy to play the number guessing game"""
 
 from dataclasses import dataclass
 
@@ -59,9 +59,9 @@ class Player():
                 self.upper_bound = guess
             elif answer == Answer.HIGHER and guess > self.lower_bound:
                 self.lower_bound = guess
-        return
 
     def get_last_answer(self) -> Answer | None:
+        """retrieve the last answer received from the game master"""
         if self.history:
             return self.history[-1][1]
         return None
