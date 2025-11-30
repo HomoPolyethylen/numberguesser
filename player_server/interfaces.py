@@ -8,27 +8,29 @@ if TYPE_CHECKING:
     import models
 
 class MasterClientInterface(ABC):
-    
+    """an interface for a client talking to the game master server"""
+
     @abstractmethod
     def init_game(self, game_min:int, game_max:int) -> dict:
         """initialize a new game and return the new player id"""
-        ...
-    
+
     @abstractmethod
     def guess(self, guess: int, player_id: str) -> "models.Answer":
         """submit a guess to the game master"""
-        ...
-    
+
     @abstractmethod
-    def get(self, path: str, headers: dict|None = None, json: dict|None = None) -> dict:
+    def get(self, path: str, params: dict|None=None, headers: dict|None = None) -> dict:
         """send a GET request to the game master"""
-        ...
-   
+
 
 class GuessStrategy(ABC):
+    """An interface for different guessing strategies, that a player can use.
+
+    It defines how the next guess is determined, but does neither store state nor talk to the game master.
+    """
     lower_bin = None
     upper_bin = None
 
     @abstractmethod
     def next_guess(self, player: "player.Player") -> int:
-        ...
+        """determine the next guess for the player"""

@@ -3,8 +3,9 @@
 the player uses one of these to talk to the game master.
 """
 
-import httpx
 import os
+
+import httpx
 from fastapi import HTTPException
 
 from models import Answer
@@ -28,14 +29,14 @@ class MasterClientHttpx(MasterClientInterface):
         r = self._client.get("/guess", headers={"player-id": player_id}, params={"guess": guess})
         r.raise_for_status()
         return r.json()
-    
-    def get(self, path: str, headers: dict|None=None, params: dict|None=None):
+
+    def get(self, path: str, params: dict|None=None, headers: dict|None=None) -> dict:
         try:
             r = self._client.get(path, headers=headers, params=params)
             r.raise_for_status()
             return r.json()
         except httpx.HTTPError as e:
-            raise HTTPException(status_code=503, detail=str(e))
+            raise HTTPException(status_code=503, detail=str(e)) from e
 
 #
 # METHODS
@@ -43,4 +44,4 @@ class MasterClientHttpx(MasterClientInterface):
 def get_master_client() -> MasterClientInterface:
     """retrieves the client talking to the game master server
     """
-    return MasterClientHttpx(base_url=os.getenv('GAME_MASTER_ADDR', default="http://127.0.0.1:8000"))
+    return MasterClientHttpx(base_url=os.getenv('GAME_MASTER_ADDR',default="http://127.0.0.1:8000"))

@@ -1,8 +1,11 @@
+"""this module implements concrete guessing strategies for players to use"""
+
 from models import Answer
 from .interfaces import GuessStrategy
 from .player import Player
 
 class BinarySearch(GuessStrategy):
+    """A guessing strategy that uses binary search to find the number in O(log n) time."""
 
     def next_guess(self, player: Player) -> int:
         if not player.history:
@@ -20,4 +23,3 @@ class BinarySearch(GuessStrategy):
         # pick next guess
         next_pivot = int(player.lower_bound + (player.upper_bound - player.lower_bound) / 2)
         return next_pivot
-  

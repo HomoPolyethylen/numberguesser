@@ -1,3 +1,5 @@
+"""implements the player which uses a strategy to play the number guessing game with the game master"""
+
 from dataclasses import dataclass
 
 from models import Answer
@@ -7,7 +9,8 @@ from .interfaces import GuessStrategy, MasterClientInterface
 class Player():
     """the player is the core agent of the player server.
 
-    It uses a GuessStrategy to determine the next guess and a MasterClientInterface to talk to the game master server.
+    It uses a GuessStrategy to determine the next guess 
+    and a MasterClientInterface to talk to the game master server.
     """
     strategy        : GuessStrategy
     master_client   : MasterClientInterface
@@ -35,16 +38,18 @@ class Player():
         return self.upper_bound
 
     def get_id(self) -> str:
-        # return self.headers.get("player-id")
+        """retrieve the player's id"""
         if self.player_id is None:
             raise Exception("Player ID is not set. This could mean the game was not initialised.")
         return self.player_id
-    
+
     def set_id(self, player_id: str | dict) -> None:
         if isinstance(player_id, dict):
             self.player_id = player_id.get("player-id") # type: ignore
-        else:
+        elif isinstance(player_id, str):
             self.player_id = player_id
+        else:
+            raise ValueError("player_id must be a string or a dict containing 'player-id' key")
 
     def add_guess(self, guess: int, answer: Answer) -> None:
         """add a guess and its answer to the player's history and update bounds"""
@@ -62,6 +67,7 @@ class Player():
         return None
 
     def summarize_history(self) -> dict:
+        """summarize the player's game history in json format"""
         status = Answer.WON if self.get_last_answer() == Answer.WON else "playing"
         n_guesses = len(self.history)
         number = self.history[-1][0] if self.history[-1][1] == Answer.WON else "unknown"
@@ -80,7 +86,6 @@ class Player():
         self.game_max = game_max
         self.lower_bound = game_min
         self.upper_bound = game_max
-        return
 
     def take_guess(self, guess: int) -> Answer:
         """send a guess to the game master
@@ -92,7 +97,7 @@ class Player():
             str|dict: the game masters response to the guess
         """
         return self.master_client.guess(guess, self.get_id())
-        
+
     def play_game(self):
         """play the number guessing game.
 
@@ -102,4 +107,3 @@ class Player():
             next_guess = self.strategy.next_guess(player=self)
             ans = self.take_guess(next_guess)
             self.add_guess(next_guess, ans)
-
